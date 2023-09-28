@@ -24,7 +24,7 @@ def boundary_sampling(path):
         out_file = path + f'/boundary_{args.sigma}_samples{sample_num}.npz'
 
         if os.path.exists(out_file):
-        # if os.path.exists(path + f'/boundary_{args.sigma}_samples{sample_num}.npz'):
+            # if os.path.exists(path + f'/boundary_{args.sigma}_samples{sample_num}.npz'):
             return
 
         off_path = path + '/isosurf_scaled.off'
@@ -76,23 +76,21 @@ def get_mission_list(list):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run boundary sampling')
     parser.add_argument('-sigma', default=0.1, type=float)
+    parser.add_argument('--processed_data_dir', type=str, default='../sample_data/ShapeNetCore.v1_processed_tmp')
     args = parser.parse_args()
 
     sample_num = 100000
     # sample_num = 200000
 
-    ROOT_list = [
-        '/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed_tmp',
-    ]
+    ROOT = args.processed_data_dir
 
     with Pool(4) as p:
-    # with Pool(int(cpu_count() * 0.5)) as p:
-        for ROOT in ROOT_list:
-            obj_file_list = [os.path.dirname(path) for path in
-                             glob.glob(os.path.join(ROOT, '**/isosurf_scaled.off'), recursive=True)]
+        # with Pool(int(cpu_count() * 0.5)) as p:
+        obj_file_list = [os.path.dirname(path) for path in
+                         glob.glob(os.path.join(ROOT, '**/isosurf_scaled.off'), recursive=True)]
 
-            res_list = p.imap_unordered(boundary_sampling, get_mission_list(obj_file_list), chunksize=2)
+        res_list = p.imap_unordered(boundary_sampling, get_mission_list(obj_file_list), chunksize=2)
 
-            bar = tqdm(range(len(obj_file_list)))
-            for res in res_list:
-                bar.update()
+        bar = tqdm(range(len(obj_file_list)))
+        for res in res_list:
+            bar.update()

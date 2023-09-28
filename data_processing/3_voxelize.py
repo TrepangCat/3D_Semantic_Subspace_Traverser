@@ -48,27 +48,22 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Run voxalization'
     )
-    parser.add_argument('-res', default=32, type=int)
+    parser.add_argument('-res', default=64, type=int, help='the resolution of the voxel')
+    parser.add_argument('--processed_data_dir', type=str, default='../sample_data/ShapeNetCore.v1_processed_tmp')
     args = parser.parse_args()
-
-    path_list = [
-        # '/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed/02691156/train',
-        # '/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed/02958343/train/origin',
-        # '/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed/02958343/train/extend',
-        '/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed_hsp',
-    ]
 
     # with Pool(int(mp.cpu_count() * 0.5)) as p:
     with Pool(8) as p:
-        for path in path_list:
-            off_list = glob.glob(os.path.join(path, '**', '*isosurf_scaled.off'), recursive=True)
-            off_list = [os.path.dirname(x) for x in off_list]
+        path = args.processed_data_dir
 
-            res_list = p.imap_unordered(partial(voxelize, res=args.res), get_mission_list(off_list), chunksize=1)
-            # res_list = p.imap(partial(voxelize, res=args.res), get_mission_list(off_list), chunksize=1)
-            # res_list = p.map(partial(voxelize, res=args.res), get_mission_list(off_list), chunksize=1)
+        off_list = glob.glob(os.path.join(path, '**', '*isosurf_scaled.off'), recursive=True)
+        off_list = [os.path.dirname(x) for x in off_list]
 
-            # 下面是为imap版本设计的
-            bar = tqdm(range(len(off_list)), position=0)
-            for res in res_list:
-                bar.update()
+        res_list = p.imap_unordered(partial(voxelize, res=args.res), get_mission_list(off_list), chunksize=1)
+        # res_list = p.imap(partial(voxelize, res=args.res), get_mission_list(off_list), chunksize=1)
+        # res_list = p.map(partial(voxelize, res=args.res), get_mission_list(off_list), chunksize=1)
+
+        # 下面是为imap版本设计的
+        bar = tqdm(range(len(off_list)), position=0)
+        for res in res_list:
+            bar.update()

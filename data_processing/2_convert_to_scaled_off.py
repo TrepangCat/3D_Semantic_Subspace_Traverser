@@ -4,11 +4,12 @@ import os
 import subprocess
 import sys
 from multiprocessing import Pool
-
+import argparse
 import trimesh
 from tqdm import tqdm
 
-INPUT_PATH = 'shapenet/data'
+
+# INPUT_PATH = 'shapenet/data'
 
 
 def run_os_cmd(cmd):
@@ -66,20 +67,21 @@ def scale(path):
 
 
 if __name__ == '__main__':
-    input_list = [
-        # '/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed',
-        # '/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed/03001627',
-        # '/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed/02691156',
-        '/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed_tmp',
-    ]
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--processed_data_dir', type=str, default='../sample_data/ShapeNetCore.v1_processed_tmp')
+    FLAGS = parser.parse_args()
+
+    input_path = FLAGS.processed_data_dir
+
     iso_dir_list = []
-    for input_path in input_list:
-        iso_dir_list += glob.glob(os.path.join(input_path, '**/train/**', 'isosurf.obj'), recursive=True)
+    iso_dir_list += glob.glob(os.path.join(input_path, '**', 'isosurf.obj'), recursive=True)
     iso_dir_list = [os.path.dirname(x) for x in iso_dir_list]
+
 
     def get_mission_from_list(list):
         for x in list:
             yield x
+
 
     with Pool(int(mp.cpu_count() / 2)) as p:
         # convert isosurf.obj to isosurf.off

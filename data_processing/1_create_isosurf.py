@@ -15,8 +15,9 @@ import subprocess
 CUR_PATH = os.path.dirname(os.path.realpath(__file__))
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--input_path', type=str, default="../sample_data/ShapeNetCore.v1", help='ShapeNetCore.v1 path')
 parser.add_argument('--thread_num', type=int, default='4', help='how many objs are creating at the same time')
-parser.add_argument('--category', type=str, default="car",
+parser.add_argument('--category', type=str, default="chair",
                     help='Which single class to generate on [default: all, can '
                          'be chair or plane, etc.],'
                          '[chair, rifle, table, airplane, car]')
@@ -313,7 +314,6 @@ def create_one_sdf(sdfcommand, res, expand_rate, sdf_file, obj_file, indx, g=0.0
     #     print(f'\'{sdfcommand}\' should be executable.')
     #     sys.exit(1)
 
-
     command_str2 = "mv " + str(indx) + ".dist " + sdf_file
     print("command:", command_str2)
     os.system(command_str2)
@@ -352,7 +352,6 @@ def create_sdf_obj(sdfcommand, marching_cube_command, cat_mesh_dir, cat_norm_mes
     # if os.path.exists(cube_obj_file):
     #     return
 
-
     if version == 1:
         model_file = os.path.join(cat_mesh_dir, obj, "model.obj")
     else:
@@ -360,7 +359,6 @@ def create_sdf_obj(sdfcommand, marching_cube_command, cat_mesh_dir, cat_norm_mes
 
     print("creating", sdf_file)
     norm_obj_file = get_normalize_mesh(model_file, norm_mesh_sub_dir)
-
 
     if not os.path.exists(cube_obj_file):
         create_one_sdf(sdfcommand, res, expand_rate, sdf_file, norm_obj_file, indx, g=g)
@@ -382,7 +380,6 @@ def create_sdf_obj(sdfcommand, marching_cube_command, cat_mesh_dir, cat_norm_mes
 
 
 def create_one_cube_obj(marching_cube_command, i, sdf_file, cube_obj_file):
-
     command_str = marching_cube_command + " " + sdf_file + " " + cube_obj_file + " -i " + str(i)
     print("command:", command_str)
     os.system(command_str)
@@ -459,7 +456,7 @@ def create_sdf(sdfcommand, marching_cube_command, LIB_command, num_sample,
                       iso_val, expand_rate, indx, ish5, norm, num_sample, bandwidth, max_verts, cat_id, g, version,
                       skip_all_exist)
                      for sdfcommand, marching_cube_command, cat_mesh_dir, cat_norm_mesh_dir, cat_sdf_dir, obj,
-                         res, iso_val, expand_rate, indx, ish5, norm, num_sample, bandwidth, max_verts, cat_id, g
+                     res, iso_val, expand_rate, indx, ish5, norm, num_sample, bandwidth, max_verts, cat_id, g
                      , version, skip_all_exist in
                      zip(sdfcommand_lst,
                          marching_cube_command_lst,
@@ -511,10 +508,10 @@ if __name__ == "__main__":
             "watercraft"
         ],
         "raw_dirs": {
-            "mesh_dir": "/home/brl/data_disk_4t/data/ShapeNetCore.v1",
+            "mesh_dir": FLAGS.input_path,  # "../sample_data/ShapeNetCore.v1",
             # the dirname of ShapeNetCore.v1
-            "norm_mesh_dir": "/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed_tmp",
-            "sdf_dir": "/home/brl/dataDisk2/wrw/dataset/ShapeNetDataSet_subset/ShapeNetCore.v1_processed_tmp",
+            "norm_mesh_dir": "../sample_data/ShapeNetCore.v1_processed_tmp",
+            "sdf_dir": "../sample_data/ShapeNetCore.v1_processed_tmp",
         }
     }
 

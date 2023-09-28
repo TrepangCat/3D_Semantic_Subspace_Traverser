@@ -2,7 +2,7 @@
 
 ### 3D Semantic Subspace Traverser: Empowering 3D Generative Model with Shape Editing Capability
 [**Ruowei Wang**](https://scholar.google.com/citations?user=_-R8Wn8AAAAJ&hl=en),
-Yu Liu,
+[**Yu Liu**](https://scholar.google.com/citations?user=-rtPdQ4AAAAJ&hl=en),
 [**Pei Su**](https://scholar.google.com/citations?user=ayVfs1kAAAAJ&hl=zh-CN),
 Jianwei Zhang,
 [**Qijun Zhao**](https://scholar.google.com/citations?user=c2fckoYAAAAJ&hl=en)
@@ -45,11 +45,69 @@ If you make use of our work, please cite our paper:
   year={2023}
 }
 ```
- =
+
+## Data Preprocessing
+
+Our data preprocessing code is based on <a href="https://github.com/jchibane/if-net" target="_blank">IF-NET</a> and
+<a href="https://github.com/Xharlie/DISN" target="_blank">DISN</a>. Please refer them if you this code. And if you 
+have any questions, you can read the original code of 
+<a href="https://github.com/jchibane/if-net" target="_blank">IF-NET</a> and
+<a href="https://github.com/Xharlie/DISN" target="_blank">DISN</a>.
+
+The following data preprocessing codes are customized to the dataset `ShapeNetCore.v1`, but you can also apply them
+to any `*.obj` files after editing.
+
+First, install the needed libraries with:
+
+```
+cd data_processing/libmesh/
+python setup.py build_ext --inplace
+cd ../libvoxelize/
+python setup.py build_ext --inplace
+cd ../..
+```
+
+Second, please set the following files executable:
+```
+data_processing/bin/PreprocessMesh
+data_processing/bin/SampleVisibleMeshSurface
+data_processing/isosurface/computeDistanceField
+data_processing/isosurface/computeMarchingCubes
+data_processing/isosurface/displayDistanceField
+```
+
+Third, we offer some datasamples in `sample_data` folder. You can process the data with:
+```
+python data_processing/1_create_isosurf.py --input_path=../sample_data/ShapeNetCore.v1 --thread_num=8 --category=chair
+python data_processing/2_convert_to_scaled_off.py  --processed_data_dir=../sample_data/ShapeNetCore.v1_processed_tmp
+python data_processing/3_voxelize.py --processed_data_dir=../sample_data/ShapeNetCore.v1_processed_tmp -res=64
+python data_processing/4_boundary_sampling.py --processed_data_dir=../sample_data/ShapeNetCore.v1_processed_tmp
+```
+
+we save the processed data in `../sample_data/ShapeNetCore.v1_processed_tmp`, which is defined in a dictionary named 
+`data` in the `data_processing/1_create_isosurf.py`.
+
+## Training code
+
+First, we train the VAE with:
+```
+python train_VAE.py --path=./sample_data/ShapeNetCore.v1_processed_tmp
+```
+
+Second, we can use the trained VAE to generate the latent code for training the GAN.
+```
+to be written
+```
+
+
+All running results are saved in `run_CubeCodeCraft/****-*-batch*-steps*`.
+
+## Pre-training Models
+
 ## TODO
 - [ ] introduction
 - [ ] requirements
-- [ ] data preporocessing
+- [x] data preprocessing
 - [ ] training code
 - [ ] pre-training models
 - [ ] inference code
