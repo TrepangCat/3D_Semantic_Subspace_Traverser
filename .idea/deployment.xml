@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="brl@192.168.58.224:22 password (4)" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
+      <paths name="brl4090@192.168.62.200:22 password (3)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="brl@192.168.58.224:22 password">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="brl@192.168.58.224:22 password (2)">
         <serverdata>
           <mappings>
@@ -10,6 +24,27 @@
         </serverdata>
       </paths>
       <paths name="brl@192.168.58.224:22 password (3)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="brl@192.168.58.224:22 password (4)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/brl/data_disk_4t/code/stylegan_series/3D_Semantic_Subspace_Traverser" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="brl@192.168.58.232:22 password">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="brl@192.168.58.232:22 password (2)">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
@@ -30,6 +65,14 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="root@192.168.18.148:30000 password">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>

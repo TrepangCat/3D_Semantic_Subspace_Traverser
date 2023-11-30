@@ -4,7 +4,7 @@ import os
 import re
 from multiprocessing import Pool
 
-import mcubes  # 这个应该是来自 pymcubes 包
+import mcubes  # pip install pymcubes
 import numpy as np
 import pyrender
 import torch
@@ -593,13 +593,6 @@ def print_module_summary(module, inputs, max_nesting=3, skip_redundant=True):
     print()
     s += '\n'
     return outputs, s
-
-
-
-
-
-
-
 
 
 # to extend the bool input in args.

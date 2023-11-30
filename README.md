@@ -76,7 +76,7 @@ data_processing/isosurface/computeMarchingCubes
 data_processing/isosurface/displayDistanceField
 ```
 
-Third, we offer some datasamples in `sample_data` folder. You can process the data with:
+Third, we offer some data samples in `sample_data` folder. You can process the data with:
 ```
 python data_processing/1_create_isosurf.py --input_path=../sample_data/ShapeNetCore.v1 --thread_num=8 --category=chair
 python data_processing/2_convert_to_scaled_off.py  --processed_data_dir=../sample_data/ShapeNetCore.v1_processed_tmp
@@ -87,60 +87,79 @@ python data_processing/4_boundary_sampling.py --processed_data_dir=../sample_dat
 we save the processed data in `../sample_data/ShapeNetCore.v1_processed_tmp`, which is defined in a dictionary named 
 `data` in the `data_processing/1_create_isosurf.py`.
 
-## Training code
+## Training Code
 
-First, we train the VAE with:
+1. we train the VAE with:
 ```
-python train_VAE.py --path=./sample_data/ShapeNetCore.v1_processed_tmp
+python train_VAE.py --path=<str>
 ```
+- ```path``` is the path of the processed dataset. `./sample_data/ShapeNetCore.v1_processed_tmp` by default.
 
-Second, we can use the trained VAE to generate the latent code for training the GAN.
-```
-to be written
-```
+All training results of VAE are saved in `./run_CubeCodeCraft/****-AE-batch*-steps*`.
 
+2. we can use the trained VAE to generate the latent code for training the GAN:
+```
+python VAE_produce_data.py path_of_VAE_ckpt
+```
+- ```path_of_VAE_ckpt``` is the path of a trained VAE ckpt produced by step 1.
 
-All running results are saved in `run_CubeCodeCraft/****-*-batch*-steps*`.
+It produces shape codes in `./sample_data/ShapeNetCore.v1_processed_tmp_encoded` by default.
+
+3. we use these shape codes to train the GAN:
+```
+python train_GAN.py \
+--path=<str> \
+--ae_ckpt_path=<str>
+```
+- ```path``` is the path of encoded data produced by step 2. `./sample_data/ShapeNetCore.v1_processed_tmp_encoded` by default.
+- ```ae_ckpt_path``` is the path of a trained VAE ckpt produced by step 1.
+
+All training results of GAN are saved in `./run_CubeCodeCraft/****-GAN-batch*-steps*`.
 
 ## Pre-training Models
+
+to be written
+
+## Inference
+
+### generation
+```
+python GAN_generate_data.py path_of_GAN_ckpt --ae_ckpt_path=<str> --num_generated=<int>
+```
+- ```path_of_GAN_ckpt``` is the path of a trained GAN ckpt.
+- ```ae_ckpt_path``` is the path of a trained VAE ckpt.
+- ```num_generated``` is the number of generated results.
+
+Generated results are saved in a folder named as ```generate_*_r=*_threshold=*_***_num*``` nearby ```path_of_GAN_ckpt```.
+
+### shape manipulation (or shape exploration) by the local linear subspace models.
+```
+python GAN_generate_data_Eigen_newRender.py path_of_GAN_ckpt --ae_ckpt_path=<str> \
+--traverse_range=<float> \
+--intermediate_points=<int>
+--tvs_seed <int> <int> ……
+```
+- ```path_of_GAN_ckpt``` is the path of a trained GAN ckpt.
+- ```ae_ckpt_path``` is the path of a trained VAE ckpt.
+- ```traverse_range``` is the number of generated results.
+- ```intermediate_points``` is the number of intermediate points during traversing.
+- ```tvs_seed``` are seeds to generate shapes for manipulation.
+
+Generated results are saved in a folder named as ```generateEigen_*_r=*_threshold=*_***``` nearby ```path_of_GAN_ckpt```.
+
 
 ## TODO
 - [ ] introduction
 - [ ] requirements
 - [x] data preprocessing
-- [ ] training code
+- [x] training code
 - [ ] pre-training models
-- [ ] inference code
+- [x] inference code
 - [ ] acknowledgements
 - [ ] license
 - [ ] contact
 
 <!--
-## Inference
-
-To run the inference please use the following:
-
-```
-python eval.py --dataset_path <path> --batch_size <int> --mixed_precision fp16 --output_dir <path> --save_name <string> --num_workers_test <int> --sketch_cond_rate 0.2 --dataset <dresscode|vitonhd> --start_cond_rate 0.0
-```
-
-- ```dataset_path``` is the path to the dataset (change accordingly to the dataset parameter)
-- ```dataset``` dataset name to be used
-- ```output_dir``` path to the output directory
-- ```save_name``` name of the output dir subfolder where the generated images are saved
-- ```start_cond_rate``` rate {0.0,1.0} of denoising steps that will be used as offset to start sketch conditioning
-- ```sketch_cond_rate``` rate {0.0,1.0} of denoising steps in which sketch cond is applied
-- ```test_order``` test setting (paired | unpaired)
-
-Note that we provide few sample images to test MGD simply cloning this repo (*i.e.*, assets/data). To execute the code set 
-- Dress Code Multimodal dataset
-    - ```dataset_path``` to ```assets/data/dresscode```
-    - ```dataset``` to ```dresscode```
-- Viton-HD Multimodal dataset
-    - ```dataset_path``` to ```assets/data/vitonhd```
-    - ```dataset``` to ```vitonhd```
-
-It is possible to run the inference on the whole Dress Code Multimodal or Viton-HD Multimodal dataset simply changing the ```dataset_path``` and ```dataset``` according with the downloaded and prepared datasets (see sections below).
 
 
 ## Pre-trained models
