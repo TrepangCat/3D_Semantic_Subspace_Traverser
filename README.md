@@ -9,11 +9,11 @@ Jianwei Zhang,
 
 <!--**\*** Equal contribution.-->
 
-[![arXiv](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](TODO:待定)
+[![arXiv](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2307.14051)
 <!--[![GitHub Stars](https://img.shields.io/github/stars/TrepangCat/3D_Semantic_Subspace_Traverser?style=social)](https://github.com/TrepangCat/3D_Semantic_Subspace_Traverser)-->
 <!--[![GitHub Stars](https://img.shields.io/github/stars/aimagelab/multimodal-garment-designer?style=social)](https://github.com/aimagelab/multimodal-garment-designer)-->
 
-This is the **official repository** for the [**paper**](TODO:arxiv链接) "*3D Semantic Subspace Traverser: Empowering 3D Generative Model with Shape Editing Capability*".
+This is the **official repository** for the [**paper**](https://openaccess.thecvf.com/content/ICCV2023/html/Wang_3D_Semantic_Subspace_Traverser_Empowering_3D_Generative_Model_with_Shape_ICCV_2023_paper.html) "*3D Semantic Subspace Traverser: Empowering 3D Generative Model with Shape Editing Capability*".
 
 ## Overview
 
@@ -118,8 +118,10 @@ All training results of GAN are saved in `./run_CubeCodeCraft/****-GAN-batch*-st
 
 ## Pre-training Models
 
-to be written
+Baidu Netdisk: https://pan.baidu.com/s/1BAytVXCq5D3zOdtdkF_inA?pwd=68jr,
+(password=68jr)
 
+Dropbox: https://www.dropbox.com/scl/fo/b1yvcsk8yx1rl48gyhb3c/h?rlkey=4ruwe4yzx43q4vpaynhvw4at1&dl=0
 ## Inference
 
 ### generation
