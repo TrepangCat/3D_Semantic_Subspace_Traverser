@@ -45,6 +45,14 @@ If you make use of our work, please cite our paper:
 }
 ```
 
+## Requirements
+The code is developed with
+- Python 3.7
+- Pytorch 1.8.0
+- Cuda 11.4
+
+You can also create an environment using the setting file by ```conda env create -f environment.yml```.
+
 ## Data Preprocessing
 
 Our data preprocessing code is based on <a href="https://github.com/jchibane/if-net" target="_blank">IF-NET</a> and
@@ -166,7 +174,7 @@ Besides the email address in the paper, feel free to send an email to **77243885
 
 ## TODO
 - [x] overview
-- [ ] requirements
+- [x] requirements
 - [x] data preprocessing
 - [x] training code
 - [x] pre-training models
@@ -174,130 +182,3 @@ Besides the email address in the paper, feel free to send an email to **77243885
 - [x] acknowledgements
 - [x] contact
 - [x] license
-
-<!--
-
-
-## Pre-trained models
-The model and checkpoints are available via torch.hub.
-
-Load the MGD denoising UNet model using the following code:
-
-```
-unet = torch.hub.load(
-    dataset=<dataset>, 
-    repo_or_dir='aimagelab/multimodal-garment-designer', 
-    source='github', 
-    model='mgd', 
-    pretrained=True
-    )
-```
-
-- ```dataset``` dataset name (dresscode | vitonhd)
-
-Use the denoising network with our custom diffusers pipeline as follow:
-
-```
-from pipes.sketch_posemap_inpaint_pipe import StableDiffusionSketchPosemapInpaintPipeline
-from diffusers import AutoencoderKL, DDIMScheduler
-from transformers import CLIPTextModel, CLIPTokenizer
-
-pretrained_model_name_or_path = "runwayml/stable-diffusion-inpainting"
-
-text_encoder = CLIPTextModel.from_pretrained(
-    pretrained_model_name_or_path, 
-    subfolder="text_encoder"
-    )
-
-vae = AutoencoderKL.from_pretrained(
-    pretrained_model_name_or_path, 
-    subfolder="vae"
-    )
-
-tokenizer = CLIPTokenizer.from_pretrained(
-    pretrained_model_name_or_path,
-    subfolder="tokenizer",
-    )
-
-val_scheduler = DDIMScheduler.from_pretrained(
-    pretrained_model_name_or_path,
-    subfolder="scheduler"
-    )
-val_scheduler.set_timesteps(50)
-
-val_pipe = ValPipe(
-    text_encoder=text_encoder,
-    vae=vae,
-    unet=unet,
-    tokenizer=tokenizer,
-    scheduler=val_scheduler,
-    )
-```
-
-For an extensive usage case see the file ```eval.py``` in the main repo.
-
-## Datasets
-We do not hold rights on the original Dress Code and Viton-HD datasets. Please refer to the original papers for more information.
-
-Start by downloading the original datasets from the following links:
-- Viton-HD **[[link](https://github.com/shadow2496/VITON-HD)]**
-- Dress Code **[[link](https://github.com/aimagelab/dress-code)]**
-
-
-Download the Dress Code Multimodal and Viton-HD Multimodal additional data annotations from here.
-
-- Dress Code Multimodal **[[link](https://drive.google.com/file/d/1y0lHA-4ogjjo9g7VuvcQJrD_CtgjAKhv/view?usp=drive_link)]**
-- Viton-HD Multimodal **[[link](https://drive.google.com/file/d/1Z2b9YkyBPA_9ZDC54Y5muW9Q8yfAqWSH/view?usp=share_link)]**
-
-### Dress Code Multimodal Data Preparation
-Once data is downloaded prepare the dataset folder as follow:
-
-<pre>
-Dress Code
-| <b>fine_captions.json</b>
-| <b>coarse_captions.json</b>
-| test_pairs_paired.txt
-| test_pairs_unpaired.txt
-| train_pairs.txt
-| <b>test_stitch_map</b>
-|---- [category]
-|-------- images
-|-------- keypoints
-|-------- skeletons
-|-------- dense
-|-------- <b>im_sketch</b>
-|-------- <b>im_sketch_unpaired</b>
-...
-</pre>
-
-### Viton-HD Multimodal Data Preparation
-Once data is downloaded prepare the dataset folder as follow:
-
-<pre>
-Viton-HD
-| <b>captions.json</b>
-|---- train
-|-------- image
-|-------- cloth
-|-------- image-parse-v3
-|-------- openpose_json
-|-------- <b>im_sketch</b>
-|-------- <b>im_sketch_unpaired</b>
-...
-|---- test
-...
-|-------- <b>im_sketch</b>
-|-------- <b>im_sketch_unpaired</b>
-...
-</pre>
-
-
-
-
-## Acknowledgements
-This work has partially been supported by the PNRR project “Future Artificial Intelligence Research (FAIR)”, by the PRIN project “CREATIVE: CRoss-modal understanding and gEnerATIon of Visual and tExtual content” (CUP B87G22000460001), both co-funded by the Italian Ministry of University and Research, and by the European Commission under European Horizon 2020 Programme, grant number 101004545 - ReInHerit.
-
-## LICENSE
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />All material is available under [Creative Commons BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). You can **use, redistribute, and adapt** the material for **non-commercial purposes**, as long as you give appropriate credit by **citing our paper** and **indicate any changes** you've made.
-
--->
