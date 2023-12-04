@@ -21,9 +21,8 @@ This is the **official repository** for the [**paper**](https://openaccess.thecv
 <p align="center">
     <img src="images/1.gif" style="max-width:500px">
 </p>
--->
-
 An image should be presented here:
+-->
 
 >**Abstract**: <br>
 > Shape generation is the practice of producing 3D shapes as various representations for 3D content creation. 
@@ -150,16 +149,31 @@ python GAN_generate_data_Eigen_newRender.py path_of_GAN_ckpt --ae_ckpt_path=<str
 Generated results are saved in a folder named as ```generateEigen_*_r=*_threshold=*_***``` nearby ```path_of_GAN_ckpt```.
 
 
+## Acknowledgements
+
+our code is heavily built upon 
+[**IF-NET**](https://github.com/jchibane/if-net) 
+and 
+[**EigenGAN**](https://openaccess.thecvf.com/content/ICCV2021/html/He_EigenGAN_Layer-Wise_Eigen-Learning_for_GANs_ICCV_2021_paper.html). 
+If you find my code useful, please also consider to cite those papers.
+
+## Contact
+Besides the email address in the paper, feel free to send an email to **772438854@qq.com**.
+
+## LICENSE
+[**LICENSE**](https://github.com/TrepangCat/3D_Semantic_Subspace_Traverser/blob/master/LICENSE). 
+
+
 ## TODO
-- [ ] introduction
+- [x] overview
 - [ ] requirements
 - [x] data preprocessing
 - [x] training code
-- [ ] pre-training models
+- [x] pre-training models
 - [x] inference code
-- [ ] acknowledgements
-- [ ] license
-- [ ] contact
+- [x] acknowledgements
+- [x] contact
+- [x] license
 
 <!--
 
